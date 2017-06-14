@@ -2,10 +2,8 @@
 <path d="M200 200
             
            A 50 50, 0, 1, 0, 250 200
-           
+           A 50 50, 1, 0, 0, 200 200
             " fill="blue" fill-opacity="0.5"/>
- <path d="M200 200 
-          A 50 50, 1, 0, 0, 250 200"
-       fill="green" fill-opacity="0.5"/>
+        
  
 </svg>
