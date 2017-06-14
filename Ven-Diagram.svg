@@ -4,10 +4,12 @@
            A 50 50, 0, 0, 0, 291 200
            A 104 104, 0, 0, 1, 200 200"
            fill="blue" fill-opacity="0.5"></path>
- <path id="arc2" 
-       d="M400 400                       
-          A 50 50, 0, 0, 0, 400 491"           
-       fill="red" fill-opacity="0.5"></path>
+<circle id="circle2" cx="200" cy="100" 
+        r="5"            
+        fill="red"            
+        stroke="red"            
+        stroke-width="2"></circle>
+
 
 
         
