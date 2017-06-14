@@ -2,5 +2,5 @@
 <path d="M80 80
            A 45 45, 0, 0, 0, 125 125
            L 125 80 Z" fill="green"/>
-  <circle cx="100" cy="100" r="50" fill="red"/>
+ 
 </svg>
