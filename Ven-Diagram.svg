@@ -1,3 +1,4 @@
 <SVG>
 <PATH d="M 100 100 a 50 50 0 1 0 0.001 0"/>
+  <circle cx="10" cy="10" r="10" fill="red"/>
 </SVG>
