@@ -1,14 +1,14 @@
 <svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
-<path d="M200 200
+<path id="arc1" d="M200 200
             
            A 50 50, 0, 0, 0, 291 200
            A 104 104, 0, 0, 1, 200 200 "
-           fill="blue" fill-opacity="0.5"/>
+           fill="blue" fill-opacity="0.5"><path/>
 
-<path d="M291 200                       
+<path id="arc2" d="M291 200                       
          A 50 50, 0, 0, 0, 291 291           
          A 104 104, 0, 0, 1, 291 200 "           
-      fill="red" fill-opacity="0.5"/>
+      fill="red" fill-opacity="0.5"><path/>
         
  
 </svg>
