@@ -1,7 +1,7 @@
 <svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
 <path d="M200 200
             
-           A 50 50, 0, 1, 0, 250 200
+           A 50 50, 0, 1, 0, 334 200
            A 104 104, 0, 0, 1, 200 200"
            fill="blue" fill-opacity="0.5"/>
         
