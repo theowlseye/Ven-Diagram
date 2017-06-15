@@ -5,6 +5,10 @@
            A 104 104, 0, 0, 1, 200 200 Z"
            fill="blue" fill-opacity="0.5"/>
 
+            <path id="arc1" d="M100 100       
+                               A 50 50, 0, 0, 0, 191 100 
+                               A 104 104, 0, 0, 1, 100 100 Z"
+                  fill="green" fill-opacity="0.5"/>
 
 
 
