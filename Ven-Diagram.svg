@@ -5,7 +5,7 @@
            A 104 104, 0, 0, 1, 200 200 Z"
            fill="blue" fill-opacity="0.5"/>
 
-            <path class="arc2" d="M300 300       
+            <path class="arc2" d="m200 200       
                                A 50 50, 0, 0, 0, 391 300 
                                A 104 104, 0, 0, 1, 300 300 Z"
                   fill="green" fill-opacity="0.5"/>
