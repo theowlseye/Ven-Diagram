@@ -1,11 +1,11 @@
 <svg width="400" height="400" xmlns="http://www.w3.org/2000/svg">
-<path class="arc1" d="M200 200
+<path  d="M100 100
             
-           A 50 50, 0, 0, 0, 291 200
-           A 104 104, 0, 0, 1, 200 200 Z"
+           A 50 50, 0, 0, 0, 191 100
+           A 104 104, 0, 0, 1, 100 100 Z"
            fill="blue" fill-opacity="0.5"/>
 
-            <path class="arc2" d="m200 200       
+            <path d="M200 200       
                                A 50 50, 0, 0, 0, 391 300 
                                A 104 104, 0, 0, 1, 300 300 Z"
                   fill="green" fill-opacity="0.5"/>
