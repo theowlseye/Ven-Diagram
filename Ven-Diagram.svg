@@ -1,7 +1,7 @@
 <svg width="400" height="400" xmlns="http://www.w3.org/2000/svg">
 <path d="M100 230           
          A 45 45, 0, 0, 1, 125 275           
-         L 125 230 Z" fill="purple"/>          
+          Z" fill="purple"/>          
 <!--
          <path  d="M80 80
           A 50 50, 0, 0, 0, 171 80 
