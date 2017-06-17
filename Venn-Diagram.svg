@@ -1,14 +1,7 @@
 <svg width="425" height="425" xmlns="http://www.w3.org/2000/svg">
 
 <path id="arc1"  d="M200, 200 a 50, 50, 0, 0, 0, 0, 91  a 104, 104, 0, 0, 1, 0, -91 z" fill="blue" fill-opacity=".4"/>
-<path id="arc2" d="M200,200 a 104, 104, 0, 1, 1, 0, 91 
-                   a 50, 50, 0, 1, 0, 0, -91 z"
-
-         fill="yellow" fill-opacity=".4"/> 
-
-<path id="arc2" d="M200,200 a 104, 104, 0, 0, 0, 0, 91 
-                   a 50, 50, 0, 1, 0, 0, -91 z"
-
-         fill="green" fill-opacity=".4"/> 		 
+<path id="arc2" d="M200,200 a 104, 104, 0, 1, 1, 0, 91  a 50, 50, 0, 1, 0, 0, -91 z" fill="yellow" fill-opacity=".4"/> 
+<path id="arc2" d="M200,200 a 104, 104, 0, 0, 0, 0, 91  a 50, 50, 0, 1, 0, 0, -91 z" fill="green" fill-opacity=".4"/> 		 
 
 </svg>
