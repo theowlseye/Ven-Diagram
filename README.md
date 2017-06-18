@@ -1,4 +1,4 @@
-
+ 
 # Venn Diagram
 
 Given 3 sets and their union create a 3 circle diagram
@@ -18,13 +18,13 @@ The first step to this problem is deciding how big the circles need to be.
 Well the user is going to do that.
 As the programmer you need to tell the computer what the radius of the circle should be.
 
-*Area = Pi R^2
+* Area = Pi R^2
 
 Lets use algebra to isolate the R
 
-*Area/Pi=R^2
+* Area/Pi=R^2
 
-*SQRT(Area/Pi)=R
+* SQRT(Area/Pi)=R
 
 
 I haven't started using this formula.  I am still trying to Master drawing shapes.
