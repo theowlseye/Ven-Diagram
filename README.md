@@ -1,4 +1,4 @@
- 
+
 # Venn Diagram
 
 Given 3 sets and their union create a 3 circle diagram
@@ -28,5 +28,10 @@ Lets use algebra to isolate the R
 
 
 I haven't started using this formula.  I am still trying to Master drawing shapes.
+
+When you look at the diagram now it looks like two Circle but, it is 3 shapes.
+Each shape is made up of two arcs.  I want to highlight that.
+I will make each shape highlight when I hover over it.  That means I need to change this SVG to 
+a full blown HTML with a style hover added to it like I did the state game.
 
 Here is the [project](https://theowlseye.github.io/VennDiagram/VennDiagram.svg)
