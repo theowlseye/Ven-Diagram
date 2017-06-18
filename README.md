@@ -3,7 +3,7 @@
 
 Given 3 sets and their union create a 3 circle diagram
 
-Unlike most programming the SVG Path tag is very fusy about white spaces. It could be thought or it could be that the little preview option does not work but, when you view it as a user it does work.
+Unlike most programming the SVG Path tag is very fusy about white spaces. It could be that or it could be that the little preview option does not work but, when you view it as a user it does work.
 
 =C3^2xACOS((B9^2+C3^2-C2^2)/(2xB9xC3))+C2^2xACOS((B9^2+C2^2-C3^2)/(2xB9xC2))-0.5xSQRT((-B9+C3+C2)x(B9+C3-C2)x(B9-C3+C2)x(B9+C3+C2))
 the area of the union where B9 is the distance between the centers and C2 is the radius of circle A and C3 is the radius of circle B
