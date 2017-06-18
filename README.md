@@ -14,11 +14,16 @@ If it were to be educational I would have to explain how I came up with that cra
 I would also need to find a better way to show the formula.  It hurts my eyes.
 
 Here is an easy formula. This something digestable.  
-The first step to this problem is deciding how big the circles need to be.  Well the user is going to do that.
+The first step to this problem is deciding how big the circles need to be.  
+Well the user is going to do that.
 As the programmer you need to tell the computer what the radius of the circle should be.
+
 *Area = Pi R^2
+
 Lets use algebra to isolate the R
+
 *Area/Pi=R^2
+
 *SQRT(Area/Pi)=R
 
 
