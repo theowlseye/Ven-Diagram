@@ -1,4 +1,3 @@
- 
 # Venn Diagram
 
 Given 3 sets and their union create a 3 circle diagram
@@ -36,6 +35,9 @@ So now the two sliders effect the circles and nothing is going as plan.
 The test is to set the sliders each at an area to which the radius of each circle is 10.
 Then with the rest of the code the circles should overlap in such a way 
 that the angle from the center of each circle should be 90 degrees but that is not happening.  
+
+Here is what is happening given the two radiuses and a given arc length where the circle connects 
+there are two seperate overlapping shapes that could be made.  I will build both to figure this problem out. 
 
 
 Here is the [project](https://theowlseye.github.io/VennDiagram/VennDiagram.html)
