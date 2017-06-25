@@ -1,17 +1,117 @@
 <HTML>
+
   
+
 <BODY>    
+<div class="ui">
+    <div class="controls">
+        Area Circle X: <input id="rx" type="range" min="0" max="5000"/><br>
+        Area Circle Y: <input id="ry" type="range" min="0" max="5000"/><br>
+		Area Union   : <input id="aUnion" type="range" min="0" max="5000"/><br>
+    </div>
+    <div class="results">
+        Circle X Area: <span id="AreaXvalue"></span>  Radius: <span id="RadiusXvalue"></span><br>
+        Circle Y Area: <span id="AreaYvalue"></span>  Radius: <span id="RadiusYvalue"></span><br>
+		Union Area: <span id="AreaUvalue"></span>  Distance between Circle Centers:?? <span id="CircDistvalue"></span><br>
+        Circle X Angle: <span id="AngleXvalue"></span><br>
+        Circle Y Angle: <span id="AngleYvalue"></span><br>
+        Union Angle: <span id="AngleUvalue"></span><br>
+        
+
+    </div>
+</div>
+
 
   <style>
+
     path:hover {stroke:black;}
+	.ui {
+            display: flex;
+        }
+
+        .ui > div {
+            margin: 0 10px;
+        }
+
+        .ui .controls input {
+            vertical-align: middle;
+        }
+
+        svg {
+            background: #ddd;
+        }
+
   </style>
+
   
+
   <svg width="600" height="600" xmlns="http://www.w3.org/2000/svg">
 
-   <path id="arc1"  d="M200, 200 a 50, 50, 0, 0, 0, 0, 91  a 104, 104, 0, 0, 1, 0, -91 z" fill="blue" fill-opacity=".5"/>
-   <path id="arc2" d="M200,200 a 104, 104, 0, 1, 1, 0, 91  a 50, 50, 0, 1, 0, 0, -91 z" fill="yellow" fill-opacity=".5"/> 
-   <path id="arc2" d="M200,200 a 104, 104, 0, 0, 0, 0, 91  a 50, 50, 0, 1, 0, 0, -91 z" fill="green" fill-opacity=".5"/> 		 
+
+
+   <path id="arc1"  d="" fill="blue" fill-opacity=".5"/>
+
+   <path id="arc2" d="" fill="yellow" fill-opacity=".5"/> 
+
+   <path id="arc3" d="" fill="green" fill-opacity=".5"/> 		 
+
 
   </svg>
+
+  <script>
+    //capture all the element you plan to change
+	var AreaXE1 = document.getElementById("AreaXvalue");
+	var RadiusXE1 = document.getElementById("RadiusXvalue");
+	var AreaXInputE1 = document.getElementById("rx");
+	
+	var AreaYE1 = document.getElementById("AreaYvalue");
+	var RadiusYE1 = document.getElementById("RadiusYvalue");
+	var AreaYInputE1 = document.getElementById("ry");
+	
+	var AreaUE1 = document.getElementById("AreaUvalue");
+	var AreaUInputE1 = document.getElementById("aUnion");
+	
+	var PathArc1E1 = document.getElementById("arc1");
+	var PathArc2E1 = document.getElementById("arc2");
+	var PathArc3E1 = document.getElementById("arc3");
+	
+	
+	var RadiusX;
+	var RadiusY;
+	
+	AreaXInputE1.addEventListener("input", function(){UpdateXNumbers(this.value);});
+	AreaYInputE1.addEventListener("input", function(){UpdateYNumbers(this.value);});
+	AreaUInputE1.addEventListener("input", function(){UpdateUNumbers(this.value);});
+	
+	function UpdateXNumbers(e)
+	{
+	 AreaXE1.textContent=e;
+	 RadiusX=Math.round(Math.sqrt(e/Math.PI)*100)/100;
+	 RadiusXE1.textContent=RadiusX;
+	 BuildArcs();
+	} 
+	function UpdateYNumbers(e)
+	{
+	 AreaYE1.textContent=e;
+	 RadiusY=Math.round(Math.sqrt(e/Math.PI)*100)/100;
+	 RadiusYE1.textContent=RadiusY;
+	 BuildArcs();
+	} 
+	
+	function UpdateUNumbers(e)
+	{
+	 AreaUE1.textContent=e;
+	 BuildArcs();
+	}
+	
+	function BuildArcs()
+	{
+	  PathArc1E1.setAttribute("d","M200, 200 a 50, 50, 0, 0, 0, 0, 91  a 104, 104, 0, 0, 1, 0, -91 z");
+	  PathArc2E1.setAttribute("d","M200,200 a 104, 104, 0, 1, 1, 0, 91  a 50, 50, 0, 1, 0, 0, -91 z");
+	  PathArc3E1.setAttribute("d","M200,200 a 104, 104, 0, 0, 0, 0, 91  a 50, 50, 0, 1, 0, 0, -91 z");
+	}
+  </script>
+
   </BODY>
+
 </HTML>  
