@@ -5,9 +5,9 @@
 <BODY>    
 <div class="ui">
     <div class="controls">
-        Area Circle X: <input id="rx" type="range" min="0" max="5000"/><br>
-        Area Circle Y: <input id="ry" type="range" min="0" max="5000"/><br>
-		Area Union   : <input id="aUnion" type="range" min="0" max="5000"/><br>
+        Area Circle X: <input id="rx" type="range" min="1" max="5000"/><br>
+        Area Circle Y: <input id="ry" type="range" min="1" max="5000"/><br>
+		Area Union   : <input id="aUnion" type="range" min="1" max="5000"/><br>
     </div>
     <div class="results">
         Circle X Area: <span id="AreaXvalue"></span>  Radius: <span id="RadiusXvalue"></span><br>
@@ -106,9 +106,12 @@
 	
 	function BuildArcs()
 	{
-	  PathArc1E1.setAttribute("d","M200, 200 a 50, 50, 0, 0, 0, 0, 91  a 104, 104, 0, 0, 1, 0, -91 z");
-	  PathArc2E1.setAttribute("d","M200,200 a 104, 104, 0, 1, 1, 0, 91  a 50, 50, 0, 1, 0, 0, -91 z");
-	  PathArc3E1.setAttribute("d","M200,200 a 104, 104, 0, 0, 0, 0, 91  a 50, 50, 0, 1, 0, 0, -91 z");
+	  var PathArc1Str = "M200,200 a " + RadiusX*5 + "," + RadiusX*5 + ", 0, 0, 0, 0, 70  a " + RadiusY*5 + "," + RadiusY*5 + ", 0, 0, 1, 0, -70 z";
+	  var PathArc2Str = "M200,200 a " + RadiusY*5 + "," + RadiusY*5 + ", 0, 1, 1, 0, 70  a " + RadiusX*5 + "," + RadiusX*5 + ", 0, 1, 0, 0, -70 z";
+	  var PathArc3Str = "M200,200 a " + RadiusY*5 + "," + RadiusY*5 + ", 0, 0, 0, 0, 70  a " + RadiusX*5 + "," + RadiusX*5 + ", 0, 1, 0, 0, -70 z";
+	  PathArc1E1.setAttribute("d",PathArc1Str);
+	  PathArc2E1.setAttribute("d",PathArc2Str);
+	  PathArc3E1.setAttribute("d",PathArc3Str);
 	}
   </script>
 
