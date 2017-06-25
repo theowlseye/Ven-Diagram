@@ -27,11 +27,15 @@ Lets use algebra to isolate the R
 * SQRT(Area/Pi)=R
 
 
-I haven't started using this formula.  I am still trying to Master drawing shapes.
-
 When you look at the diagram now it looks like two Circle but, it is 3 shapes.
 Each shape is made up of two arcs.  I want to highlight that.
 I will make each shape highlight when I hover over it.  That means I need to change this SVG to 
 a full blown HTML with a style hover added to it like I did the state game.
+
+So now the two sliders effect the circles and nothing is going as plan.
+The test is to set the sliders each at an area to which the radius of each circle is 10.
+Then with the rest of the code the circles should overlap in such a way 
+that the angle from the center of each circle should be 90 degrees but that is not happening.  
+
 
 Here is the [project](https://theowlseye.github.io/VennDiagram/VennDiagram.html)
