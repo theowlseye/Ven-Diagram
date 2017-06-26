@@ -1,3 +1,4 @@
+
 # Venn Diagram
 
 Given 3 sets and their union create a 3 circle diagram
@@ -39,5 +40,8 @@ that the angle from the center of each circle should be 90 degrees but that is n
 Here is what is happening given the two radiuses and a given arc length where the circle connects 
 there are two seperate overlapping shapes that could be made.  I will build both to figure this problem out. 
 
+Well I built both and I am still confused as hell. How do I determin what side of the center of the smaller circle to build the arcs on?
+
+I plan to always have the smaller circle on the left by the way.
 
 Here is the [project](https://theowlseye.github.io/VennDiagram/VennDiagram.html)
