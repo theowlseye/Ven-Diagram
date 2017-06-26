@@ -46,15 +46,13 @@
   
 
   <svg width="600" height="600" xmlns="http://www.w3.org/2000/svg">
+    <path id="arc1"  d="" fill="blue" fill-opacity=".5"/>
+    <path id="arc2" d="" fill="yellow" fill-opacity=".5"/> 
+    <path id="arc3" d="" fill="green" fill-opacity=".5"/> 		 
 
-
-
-   <path id="arc1"  d="" fill="blue" fill-opacity=".5"/>
-
-   <path id="arc2" d="" fill="yellow" fill-opacity=".5"/> 
-
-   <path id="arc3" d="" fill="green" fill-opacity=".5"/> 		 
-
+	<path id="arc4"  d="" fill="blue" fill-opacity=".5"/>
+    <path id="arc5" d="" fill="yellow" fill-opacity=".5"/> 
+    <path id="arc6" d="" fill="green" fill-opacity=".5"/> 
 
   </svg>
 
@@ -74,6 +72,10 @@
 	var PathArc1E1 = document.getElementById("arc1");
 	var PathArc2E1 = document.getElementById("arc2");
 	var PathArc3E1 = document.getElementById("arc3");
+	
+	var PathArc4E1 = document.getElementById("arc4");
+	var PathArc5E1 = document.getElementById("arc5");
+	var PathArc6E1 = document.getElementById("arc6");
 	
 	
 	var RadiusX;
@@ -106,12 +108,22 @@
 	
 	function BuildArcs()
 	{
-	  var PathArc1Str = "M200,200 a " + RadiusX*5 + "," + RadiusX*5 + ", 0, 0, 0, 0, 70  a " + RadiusY*5 + "," + RadiusY*5 + ", 0, 0, 1, 0, -70 z";
-	  var PathArc2Str = "M200,200 a " + RadiusY*5 + "," + RadiusY*5 + ", 0, 1, 1, 0, 70  a " + RadiusX*5 + "," + RadiusX*5 + ", 0, 1, 0, 0, -70 z";
-	  var PathArc3Str = "M200,200 a " + RadiusY*5 + "," + RadiusY*5 + ", 0, 0, 0, 0, 70  a " + RadiusX*5 + "," + RadiusX*5 + ", 0, 1, 0, 0, -70 z";
+	  //diagram 1 
+	  var PathArc1Str = "M200,200 a " + RadiusX*5 + "," + RadiusX*5 + ", 0, 0, 0, 0, 100  a " + RadiusY*5 + "," + RadiusY*5 + ", 0, 0, 1, 0, -100 z";
+	  var PathArc2Str = "M200,200 a " + RadiusY*5 + "," + RadiusY*5 + ", 0, 1, 1, 0, 100  a " + RadiusX*5 + "," + RadiusX*5 + ", 0, 1, 0, 0, -100 z";
+	  var PathArc3Str = "M200,200 a " + RadiusY*5 + "," + RadiusY*5 + ", 0, 0, 0, 0, 100  a " + RadiusX*5 + "," + RadiusX*5 + ", 0, 1, 0, 0, -100 z";
+	  //diagram 2
+	  var PathArc4Str = "M200,400 a " + RadiusX*5 + "," + RadiusX*5 + ", 0, 1, 0, 0, 100  a " + RadiusY*5 + "," + RadiusY*5 + ", 0, 0, 1, 0, -100 z";
+	  var PathArc5Str = "M200,400 a " + RadiusY*5 + "," + RadiusY*5 + ", 0, 1, 1, 0, 100  a " + RadiusX*5 + "," + RadiusX*5 + ", 0, 0, 0, 0, -100 z";
+	  var PathArc6Str = "M200,400 a " + RadiusY*5 + "," + RadiusY*5 + ", 0, 0, 0, 0, 100  a " + RadiusX*5 + "," + RadiusX*5 + ", 0, 0, 0, 0, -100 z";
+	  
 	  PathArc1E1.setAttribute("d",PathArc1Str);
 	  PathArc2E1.setAttribute("d",PathArc2Str);
 	  PathArc3E1.setAttribute("d",PathArc3Str);
+	  
+	  PathArc4E1.setAttribute("d",PathArc4Str);
+	  PathArc5E1.setAttribute("d",PathArc5Str);
+	  PathArc6E1.setAttribute("d",PathArc6Str);
 	}
   </script>
 
