@@ -45,7 +45,7 @@
 
   
 
-  <svg width="600" height="600" xmlns="http://www.w3.org/2000/svg">
+  <svg width="700" height="700" xmlns="http://www.w3.org/2000/svg">
     <path id="arc1"  d="" fill="blue" fill-opacity=".5"/>
     <path id="arc2" d="" fill="yellow" fill-opacity=".5"/> 
     <path id="arc3" d="" fill="green" fill-opacity=".5"/> 		 
@@ -53,6 +53,9 @@
 	<path id="arc4"  d="" fill="blue" fill-opacity=".5"/>
     <path id="arc5" d="" fill="yellow" fill-opacity=".5"/> 
     <path id="arc6" d="" fill="green" fill-opacity=".5"/> 
+	
+	<circle id="circ1" cx="200" cy="500" r="75" fill="blue" fill-opacity=".5"/>
+	<circle id="circ2" cx="300" cy="500" r="75" fill="yellow" fill-opacity=".5"/>
 
   </svg>
 
@@ -77,6 +80,8 @@
 	var PathArc5E1 = document.getElementById("arc5");
 	var PathArc6E1 = document.getElementById("arc6");
 	
+	var Circ1E1 = document.getElementById("circ1");
+	var Circ2E1 = document.getElementById("circ2");
 	
 	var RadiusX;
 	var RadiusY;
@@ -88,6 +93,14 @@
 	function UpdateXNumbers(e)
 	{
 	 AreaXE1.textContent=e;
+	 //update the Area value if it is greater than the smallest circle 
+	 if(e<AreaUInputE1)
+	 {
+	   AreaUInputE1=e;
+	   AreaUInputE1.onchange({target : AreaUInputE1});
+	 }
+	 
+	 //update union input range
 	 RadiusX=Math.round(Math.sqrt(e/Math.PI)*100)/100;
 	 RadiusXE1.textContent=RadiusX;
 	 BuildArcs();
@@ -95,6 +108,8 @@
 	function UpdateYNumbers(e)
 	{
 	 AreaYE1.textContent=e;
+	 //update the Area value if it is greater than the smallest circle 
+	 //update union input range
 	 RadiusY=Math.round(Math.sqrt(e/Math.PI)*100)/100;
 	 RadiusYE1.textContent=RadiusY;
 	 BuildArcs();
@@ -109,13 +124,13 @@
 	function BuildArcs()
 	{
 	  //diagram 1 
-	  var PathArc1Str = "M200,200 a " + RadiusX*5 + "," + RadiusX*5 + ", 0, 0, 0, 0, 100  a " + RadiusY*5 + "," + RadiusY*5 + ", 0, 0, 1, 0, -100 z";
-	  var PathArc2Str = "M200,200 a " + RadiusY*5 + "," + RadiusY*5 + ", 0, 1, 1, 0, 100  a " + RadiusX*5 + "," + RadiusX*5 + ", 0, 1, 0, 0, -100 z";
-	  var PathArc3Str = "M200,200 a " + RadiusY*5 + "," + RadiusY*5 + ", 0, 0, 0, 0, 100  a " + RadiusX*5 + "," + RadiusX*5 + ", 0, 1, 0, 0, -100 z";
+	  var PathArc1Str = "M200,100 a " + RadiusX*5 + "," + RadiusX*5 + ", 0, 0, 0, 0, 100  a " + RadiusY*5 + "," + RadiusY*5 + ", 0, 0, 1, 0, -100 z";
+	  var PathArc2Str = "M200,100 a " + RadiusY*5 + "," + RadiusY*5 + ", 0, 1, 1, 0, 100  a " + RadiusX*5 + "," + RadiusX*5 + ", 0, 1, 0, 0, -100 z";
+	  var PathArc3Str = "M200,100 a " + RadiusY*5 + "," + RadiusY*5 + ", 0, 0, 0, 0, 100  a " + RadiusX*5 + "," + RadiusX*5 + ", 0, 1, 0, 0, -100 z";
 	  //diagram 2
-	  var PathArc4Str = "M200,400 a " + RadiusX*5 + "," + RadiusX*5 + ", 0, 1, 0, 0, 100  a " + RadiusY*5 + "," + RadiusY*5 + ", 0, 0, 1, 0, -100 z";
-	  var PathArc5Str = "M200,400 a " + RadiusY*5 + "," + RadiusY*5 + ", 0, 1, 1, 0, 100  a " + RadiusX*5 + "," + RadiusX*5 + ", 0, 0, 0, 0, -100 z";
-	  var PathArc6Str = "M200,400 a " + RadiusY*5 + "," + RadiusY*5 + ", 0, 0, 0, 0, 100  a " + RadiusX*5 + "," + RadiusX*5 + ", 0, 0, 0, 0, -100 z";
+	  var PathArc4Str = "M200,300 a " + RadiusX*5 + "," + RadiusX*5 + ", 0, 1, 0, 0, 100  a " + RadiusY*5 + "," + RadiusY*5 + ", 0, 0, 1, 0, -100 z";
+	  var PathArc5Str = "M200,300 a " + RadiusY*5 + "," + RadiusY*5 + ", 0, 1, 1, 0, 100  a " + RadiusX*5 + "," + RadiusX*5 + ", 0, 0, 0, 0, -100 z";
+	  var PathArc6Str = "M200,300 a " + RadiusY*5 + "," + RadiusY*5 + ", 0, 0, 0, 0, 100  a " + RadiusX*5 + "," + RadiusX*5 + ", 0, 0, 0, 0, -100 z";
 	  
 	  PathArc1E1.setAttribute("d",PathArc1Str);
 	  PathArc2E1.setAttribute("d",PathArc2Str);
@@ -124,6 +139,9 @@
 	  PathArc4E1.setAttribute("d",PathArc4Str);
 	  PathArc5E1.setAttribute("d",PathArc5Str);
 	  PathArc6E1.setAttribute("d",PathArc6Str);
+	  //circles
+	  Circ1E1.setAttribute("r",RadiusX*5);
+	  Circ2E1.setAttribute("r",RadiusY*5);
 	}
   </script>
 
