@@ -44,4 +44,6 @@ Well I built both and I am still confused as hell. How do I determin what side o
 
 I plan to always have the smaller circle on the left by the way.
 
+AAAnd someone else has done this project and here it is [Bens Venn Diagram](https://github.com/benfred/venn.js/blob/master/README.md)
+
 Here is the [project](https://theowlseye.github.io/VennDiagram/VennDiagram.html)
