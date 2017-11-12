@@ -5,17 +5,18 @@
 <BODY>    
 <div class="ui">
     <div class="controls">
-        Area Circle X: <input id="rx" type="range" min="1" max="5000"/><br>
-        Area Circle Y: <input id="ry" type="range" min="1" max="5000"/><br>
-		Area Union   : <input id="aUnion" type="range" min="1" max="5000"/><br>
+        Area Circle X: <input id="rx" type="range" min="1" max="2000"/><br>
+        Area Circle Y: <input id="ry" type="range" min="1" max="2000" disabled="disabled"/><br>
+		Area    Union: <input id="aUnion" type="range" min="1" max="2000" value="1" disabled="disabled"/><br>
     </div>
     <div class="results">
         Circle X Area: <span id="AreaXvalue"></span>  Radius: <span id="RadiusXvalue"></span><br>
         Circle Y Area: <span id="AreaYvalue"></span>  Radius: <span id="RadiusYvalue"></span><br>
-		Union Area: <span id="AreaUvalue"></span>  Distance between Circle Centers:?? <span id="CircDistvalue"></span><br>
+		Union Area: <span id="AreaUvalue"></span>  Misc Data: <span id="CircDist"></span><br>
         Circle X Angle: <span id="AngleXvalue"></span><br>
         Circle Y Angle: <span id="AngleYvalue"></span><br>
-        Union Angle: <span id="AngleUvalue"></span><br>
+        Starter Union Area: <span id="StartAreaUvalue"></span><br>
+		Test Union Area: <span id="TestAreaUvalue"></span><br>
         
 
     </div>
@@ -49,99 +50,230 @@
     <path id="arc1"  d="" fill="blue" fill-opacity=".5"/>
     <path id="arc2" d="" fill="yellow" fill-opacity=".5"/> 
     <path id="arc3" d="" fill="green" fill-opacity=".5"/> 		 
-
-	<path id="arc4"  d="" fill="blue" fill-opacity=".5"/>
-    <path id="arc5" d="" fill="yellow" fill-opacity=".5"/> 
-    <path id="arc6" d="" fill="green" fill-opacity=".5"/> 
 	
-	<circle id="circ1" cx="200" cy="500" r="75" fill="blue" fill-opacity=".5"/>
-	<circle id="circ2" cx="300" cy="500" r="75" fill="yellow" fill-opacity=".5"/>
-
   </svg>
 
   <script>
     //capture all the element you plan to change
 	var AreaXE1 = document.getElementById("AreaXvalue");
 	var RadiusXE1 = document.getElementById("RadiusXvalue");
+	var AngleXE1 = document.getElementById("AngleXvalue");
 	var AreaXInputE1 = document.getElementById("rx");
+	var DistE1 = document.getElementById("CircDist");
 	
 	var AreaYE1 = document.getElementById("AreaYvalue");
 	var RadiusYE1 = document.getElementById("RadiusYvalue");
+	var AngleYE1 = document.getElementById("AngleYvalue");
 	var AreaYInputE1 = document.getElementById("ry");
 	
 	var AreaUE1 = document.getElementById("AreaUvalue");
 	var AreaUInputE1 = document.getElementById("aUnion");
 	
+	var StartAreaUE1 = document.getElementById("StartAreaUvalue");
+	var TestAreaUE1 = document.getElementById("TestAreaUvalue");
+	
 	var PathArc1E1 = document.getElementById("arc1");
 	var PathArc2E1 = document.getElementById("arc2");
 	var PathArc3E1 = document.getElementById("arc3");
 	
-	var PathArc4E1 = document.getElementById("arc4");
-	var PathArc5E1 = document.getElementById("arc5");
-	var PathArc6E1 = document.getElementById("arc6");
+	//var PathArc4E1 = document.getElementById("arc4");
+	//var PathArc5E1 = document.getElementById("arc5");
+	//var PathArc6E1 = document.getElementById("arc6");
 	
-	var Circ1E1 = document.getElementById("circ1");
-	var Circ2E1 = document.getElementById("circ2");
 	
+	var EasyPI = Math.round(Math.PI*100000)/100000;
 	var RadiusX;
 	var RadiusY;
+	var AreaX;
+	var AreaY=0;
+	var AreaU=0;
+	var StartAreaU;
+	var TestAreaU=-1;
+	var AngleX;
+	var AngleY;
+	var DistX;
+	var DistY;
+	var arcDist;
+	var AcuteAngle=false;
+	var EscapeHatch=0;
+	var AngleMove=EasyPI/2;
 	
+	//fires continuously
 	AreaXInputE1.addEventListener("input", function(){UpdateXNumbers(this.value);});
 	AreaYInputE1.addEventListener("input", function(){UpdateYNumbers(this.value);});
 	AreaUInputE1.addEventListener("input", function(){UpdateUNumbers(this.value);});
+	//fires when the user releases the mouse
+	AreaXInputE1.addEventListener("mouseup", function(){FireXNumbers(this.value);});
+	AreaYInputE1.addEventListener("mouseup", function(){FireYNumbers(this.value);});
+	AreaUInputE1.addEventListener("mouseup", function(){FireUNumbers(this.value);});
 	
 	function UpdateXNumbers(e)
 	{
-	 AreaXE1.textContent=e;
-	 //update the Area value if it is greater than the smallest circle 
-	 if(e<AreaUInputE1)
-	 {
-	   AreaUInputE1=e;
-	   AreaUInputE1.onchange({target : AreaUInputE1});
-	 }
+	 AreaX=e;
+	 AreaXE1.textContent=AreaX;
 	 
-	 //update union input range
-	 RadiusX=Math.round(Math.sqrt(e/Math.PI)*100)/100;
-	 RadiusXE1.textContent=RadiusX;
-	 BuildArcs();
+	 //update the Area value if it is greater than the smallest circle 
+	 AreaUInputE1.max=AreaX;
+	 AreaYInputE1.min=AreaX;
+	 
 	} 
+	function FireXNumbers(e)
+	{
+	  //unlock Circle Y input
+	  if(ry.disabled)
+	  {
+	    ry.disabled=false;
+	  }
+	  else if(AreaY!=0)
+	  {
+	    DoMathStuff();
+	    BuildArcs();
+	  }
+	}
+	
 	function UpdateYNumbers(e)
 	{
+	 AreaY=e;
 	 AreaYE1.textContent=e;
 	 //update the Area value if it is greater than the smallest circle 
-	 //update union input range
-	 RadiusY=Math.round(Math.sqrt(e/Math.PI)*100)/100;
-	 RadiusYE1.textContent=RadiusY;
+	 AreaXInputE1.max=AreaY;
+	}
+	 
+	function FireYNumbers(e)
+	{	 
+	 DoMathStuff();
 	 BuildArcs();
+	 //unlock Area Input
+	 if(aUnion.disabled){aUnion.disabled=false;} 
 	} 
 	
 	function UpdateUNumbers(e)
 	{
-	 AreaUE1.textContent=e;
+	 AreaU=Math.round(e);
+	 AreaUE1.textContent=AreaU;
+	 //Make sure the user cant make the smallest circle smaller than the union 
+	 AreaXInputE1.min=AreaU;
+	}
+	function FireUNumbers(e) 
+	{
+	 DoMathStuff();
 	 BuildArcs();
 	}
 	
+	function DoMathStuff()
+	{
+  	   //do math stuff
+	   //find the radiuses given the areas
+	   RadiusY=Math.round(Math.sqrt(AreaY/EasyPI)*100)/100;
+	   RadiusX=Math.round(Math.sqrt(AreaX/EasyPI)*100)/100;
+   	   
+	   //make the angle of the small circle to the join point 90 degrees
+	   AngleX=EasyPI/2;
+	   //the distance of the begining arc is 2 x the radius of corcle x
+	   arcDist = RadiusX*2*Math.sin(AngleX);
+	   //the distance of the begining X cirle to the join line is 0
+	   DistX=Math.cos(AngleX)*RadiusX;
+	   
+	   //find the angle of the large circle to the join point
+	   AngleY=Math.asin((arcDist*.5)/(RadiusY));
+	   //the distance of the begining Y cirle to the join line 
+	   DistY=Math.cos(AngleY)*RadiusY;
+       //find the area of the union 
+	   StartAreaU=(AreaX*((AngleX)/(EasyPI))-(DistX*arcDist*.5))+(AreaY*((AngleY)/(EasyPI))-(DistY*arcDist*.5));
+	   if(AreaU!=0)
+	   {
+	    //is the Area greater than the start area?
+		if(AreaU>StartAreaU)
+		{
+		  AcuteAngle=false;
+		   TestAreaU=StartAreaU;
+		  //test 135 degrees
+		  AngleMove=EasyPI/2;
+		  EscapeHatch=1;
+		  do
+		  {
+		    EscapeHatch++;
+			AngleMove=AngleMove/2;
+			if(TestAreaU>AreaU)
+			{
+		     AngleX=AngleX-AngleMove;
+			}
+            else
+            {
+			 AngleX=AngleX+AngleMove;
+            } 			
+		    arcDist = RadiusX*2*Math.sin(AngleX);
+		    DistX=Math.cos(AngleX)*RadiusX;;
+		    AngleY=Math.asin((arcDist*.5)/(RadiusY));
+		    DistY=Math.cos(AngleY)*RadiusY;
+		    TestAreaU=(AreaX*((AngleX*2)/(2*EasyPI))-(DistX*arcDist*.5))+(AreaY*((AngleY*2)/(2*EasyPI))-(DistY*arcDist*.5));
+		    TestAreaU=Math.round(TestAreaU);
+		  }
+           while((AreaU!=TestAreaU)&&EscapeHatch<20);  		  
+		}
+		else if(AreaU<StartAreaU)
+		{
+		  AcuteAngle=true;
+		  TestAreaU=StartAreaU;
+		  //test 45 degrees
+		  AngleMove=EasyPI/2;
+		  EscapeHatch=1;
+          do
+          {		  
+		    EscapeHatch++;
+			AngleMove=AngleMove/2;
+			if(TestAreaU>AreaU)
+			{
+		     AngleX=AngleX-AngleMove;
+			}
+            else
+            {
+			 AngleX=AngleX+AngleMove;
+            } 			
+		    arcDist = RadiusX*2*Math.sin(AngleX);
+		    DistX=Math.cos(AngleX)*RadiusX;;
+		    AngleY=Math.asin((arcDist*.5)/(RadiusY));
+		    DistY=Math.cos(AngleY)*RadiusY;
+		    TestAreaU=(AreaX*((AngleX*2)/(2*EasyPI))-(DistX*arcDist*.5))+(AreaY*((AngleY*2)/(2*EasyPI))-(DistY*arcDist*.5));
+		    TestAreaU=Math.round(TestAreaU);
+		  } 
+		  while((AreaU!=TestAreaU)&&EscapeHatch<20); 
+		}
+	   }
+       	   
+		
+	 //show results
+	 RadiusYE1.textContent=RadiusY;
+	 RadiusXE1.textContent=RadiusX;
+	 AngleXE1.textContent=AngleX;
+	 AngleYE1.textContent=AngleY;
+	 StartAreaUE1.textContent=StartAreaU;
+	 TestAreaUE1.textContent=TestAreaU;
+	 DistE1.textContent=EscapeHatch;
+	}
 	function BuildArcs()
 	{
-	  //diagram 1 
-	  var PathArc1Str = "M200,100 a " + RadiusX*5 + "," + RadiusX*5 + ", 0, 0, 0, 0, 100  a " + RadiusY*5 + "," + RadiusY*5 + ", 0, 0, 1, 0, -100 z";
-	  var PathArc2Str = "M200,100 a " + RadiusY*5 + "," + RadiusY*5 + ", 0, 1, 1, 0, 100  a " + RadiusX*5 + "," + RadiusX*5 + ", 0, 1, 0, 0, -100 z";
-	  var PathArc3Str = "M200,100 a " + RadiusY*5 + "," + RadiusY*5 + ", 0, 0, 0, 0, 100  a " + RadiusX*5 + "," + RadiusX*5 + ", 0, 1, 0, 0, -100 z";
-	  //diagram 2
-	  var PathArc4Str = "M200,300 a " + RadiusX*5 + "," + RadiusX*5 + ", 0, 1, 0, 0, 100  a " + RadiusY*5 + "," + RadiusY*5 + ", 0, 0, 1, 0, -100 z";
-	  var PathArc5Str = "M200,300 a " + RadiusY*5 + "," + RadiusY*5 + ", 0, 1, 1, 0, 100  a " + RadiusX*5 + "," + RadiusX*5 + ", 0, 0, 0, 0, -100 z";
-	  var PathArc6Str = "M200,300 a " + RadiusY*5 + "," + RadiusY*5 + ", 0, 0, 0, 0, 100  a " + RadiusX*5 + "," + RadiusX*5 + ", 0, 0, 0, 0, -100 z";
+	   
+	  if(AcuteAngle)
+	  {
+	    var PathArc1Str = "M200,100 a " + RadiusX*5 + "," + RadiusX*5 + ", 0, 1, 0, 0, " + arcDist*5 + "  a " + RadiusY*5 + "," + RadiusY*5 + ", 0, 0, 1, 0, -" + arcDist*5 + " z";
+  	    var PathArc2Str = "M200,100 a " + RadiusY*5 + "," + RadiusY*5 + ", 0, 1, 1, 0, " + arcDist*5 + "  a " + RadiusX*5 + "," + RadiusX*5 + ", 0, 0, 0, 0, -" + arcDist*5 + " z";
+	    var PathArc3Str = "M200,100 a " + RadiusY*5 + "," + RadiusY*5 + ", 0, 0, 0, 0, " + arcDist*5 + "  a " + RadiusX*5 + "," + RadiusX*5 + ", 0, 0, 0, 0, -" + arcDist*5 + " z";
+	  }
+	  else
+	  {
+	    var PathArc1Str = "M200,100 a " + RadiusX*5 + "," + RadiusX*5 + ", 0, 0, 0, 0, " + arcDist*5 + "  a " + RadiusY*5 + "," + RadiusY*5 + ", 0, 0, 1, 0, -" + arcDist*5 + " z";
+	    var PathArc2Str = "M200,100 a " + RadiusY*5 + "," + RadiusY*5 + ", 0, 1, 1, 0, " + arcDist*5 + "  a " + RadiusX*5 + "," + RadiusX*5 + ", 0, 1, 0, 0, -" + arcDist*5 + " z";
+	    var PathArc3Str = "M200,100 a " + RadiusY*5 + "," + RadiusY*5 + ", 0, 0, 0, 0, " + arcDist*5 + "  a " + RadiusX*5 + "," + RadiusX*5 + ", 0, 1, 0, 0, -" + arcDist*5 + " z";
+	  }
 	  
+	  	  
 	  PathArc1E1.setAttribute("d",PathArc1Str);
 	  PathArc2E1.setAttribute("d",PathArc2Str);
 	  PathArc3E1.setAttribute("d",PathArc3Str);
 	  
-	  PathArc4E1.setAttribute("d",PathArc4Str);
-	  PathArc5E1.setAttribute("d",PathArc5Str);
-	  PathArc6E1.setAttribute("d",PathArc6Str);
-	  //circles
-	  Circ1E1.setAttribute("r",RadiusX*5);
-	  Circ2E1.setAttribute("r",RadiusY*5);
+	  
+	  
 	}
   </script>
 
