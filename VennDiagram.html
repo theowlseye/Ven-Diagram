@@ -106,6 +106,10 @@
 	AreaXInputE1.addEventListener("mouseup", function(){FireXNumbers(this.value);});
 	AreaYInputE1.addEventListener("mouseup", function(){FireYNumbers(this.value);});
 	AreaUInputE1.addEventListener("mouseup", function(){FireUNumbers(this.value);});
+	//fires when the user releases the finger
+	AreaXInputE1.addEventListener("touchend", function(){FireXNumbers(this.value);});
+	AreaYInputE1.addEventListener("touchend", function(){FireYNumbers(this.value);});
+	AreaUInputE1.addEventListener("touchend", function(){FireUNumbers(this.value);});
 	
 	function UpdateXNumbers(e)
 	{
