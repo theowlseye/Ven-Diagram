@@ -5,18 +5,18 @@
 <BODY>    
 <div class="ui">
     <div class="controls">
-        Area Circle X: <input id="rx" type="range" min="1" max="2000"/><br>
-        Area Circle Y: <input id="ry" type="range" min="1" max="2000" disabled="disabled"/><br>
+        Area Circle X: <input id="rx" type="range" min="1" max="2000"/><br><br><br>
+        Area Circle Y: <input id="ry" type="range" min="1" max="2000" disabled="disabled"/><br><br><br>
 		Area    Union: <input id="aUnion" type="range" min="1" max="2000" value="1" disabled="disabled"/><br>
     </div>
     <div class="results">
-        Circle X Area: <span id="AreaXvalue"></span>  Radius: <span id="RadiusXvalue"></span><br>
-        Circle Y Area: <span id="AreaYvalue"></span>  Radius: <span id="RadiusYvalue"></span><br>
-		Union Area: <span id="AreaUvalue"></span>  Misc Data: <span id="CircDist"></span><br>
-        Circle X Angle: <span id="AngleXvalue"></span><br>
-        Circle Y Angle: <span id="AngleYvalue"></span><br>
-        Starter Union Area: <span id="StartAreaUvalue"></span><br>
-		Test Union Area: <span id="TestAreaUvalue"></span><br>
+        Circle X Area: <span style="color:blue" id="AreaXvalue"></span>  Radius: <span style="color:blue" id="RadiusXvalue"></span><br>
+        Circle Y Area: <span style="color:blue" id="AreaYvalue"></span>  Radius: <span style="color:blue" id="RadiusYvalue"></span><br>
+		Union Area: <span style="color:blue" id="AreaUvalue"></span>  Iterations: <span style="color:blue" id="CircDist"></span><br>
+        Circle X Angle: <span style="color:blue" id="AngleXvalue"></span><br>
+        Circle Y Angle: <span style="color:blue" id="AngleYvalue"></span><br>
+        Starter Union Area: <span style="color:blue" id="StartAreaUvalue"></span><br>
+		Test Union Area: <span style="color:blue" id="TestAreaUvalue"></span><br>
         
 
     </div>
@@ -37,7 +37,9 @@
         .ui .controls input {
             vertical-align: middle;
         }
-
+	    .ui .results {
+            float: right;
+        }
         svg {
             background: #ddd;
         }
@@ -46,7 +48,7 @@
 
   
 
-  <svg width="700" height="700" xmlns="http://www.w3.org/2000/svg">
+  <svg width="700" height="560" xmlns="http://www.w3.org/2000/svg">
     <path id="arc1"  d="" fill="blue" fill-opacity=".5"/>
     <path id="arc2" d="" fill="yellow" fill-opacity=".5"/> 
     <path id="arc3" d="" fill="green" fill-opacity=".5"/> 		 
@@ -75,10 +77,6 @@
 	var PathArc1E1 = document.getElementById("arc1");
 	var PathArc2E1 = document.getElementById("arc2");
 	var PathArc3E1 = document.getElementById("arc3");
-	
-	//var PathArc4E1 = document.getElementById("arc4");
-	//var PathArc5E1 = document.getElementById("arc5");
-	//var PathArc6E1 = document.getElementById("arc6");
 	
 	
 	var EasyPI = Math.round(Math.PI*100000)/100000;
@@ -144,11 +142,14 @@
 	}
 	 
 	function FireYNumbers(e)
-	{	 
-	 DoMathStuff();
-	 BuildArcs();
-	 //unlock Area Input
-	 if(aUnion.disabled){aUnion.disabled=false;} 
+	{
+      if(AreaY!=0)
+	  {	
+	   DoMathStuff();
+	   BuildArcs();
+	   //unlock Area Input
+	   if(aUnion.disabled){aUnion.disabled=false;} 
+	  }
 	} 
 	
 	function UpdateUNumbers(e)
@@ -179,7 +180,7 @@
 	   DistX=Math.cos(AngleX)*RadiusX;
 	   
 	   //find the angle of the large circle to the join point
-	   AngleY=Math.asin((arcDist*.5)/(RadiusY));
+	   AngleY=Math.round(Math.asin((arcDist*.5)/(RadiusY))*100000)/100000;
 	   //the distance of the begining Y cirle to the join line 
 	   DistY=Math.cos(AngleY)*RadiusY;
        //find the area of the union 
