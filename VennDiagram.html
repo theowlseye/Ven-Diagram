@@ -5,9 +5,9 @@
 <BODY>    
 <div class="ui">
     <div class="controls">
-        Area Circle X: <input id="rx" type="range" onmousemove="UpdateXNumbers(this.value)"	min="1" max="2000"/><br><br><br>
-        Area Circle Y: <input id="ry" type="range" min="1" max="2000" disabled="disabled"/><br><br><br>
-		Area    Union: <input id="aUnion" type="range" min="1" max="2000" value="1" disabled="disabled"/><br>
+        Area Circle X: <input id="rx" type="range" onmousemove="UpdateXNumbers(this.value)"	onmouseup="FireXNumbers(this.value)" min="1" max="2000"/><br><br><br>
+        Area Circle Y: <input id="ry" type="range" onmousemove="UpdateYNumbers(this.value)" onmouseup="FireYNumbers(this.value)" min="1" max="2000" disabled="disabled"/><br><br><br>
+		Area    Union: <input id="aUnion" type="range" onmousemove="UpdateUNumbers(this.value)" onmouseup="FireUNumbers(this.value)" min="1" max="2000" value="1" disabled="disabled"/><br>
     </div>
     <div class="results">
         Circle X Area: <span style="color:blue" id="AreaXvalue"></span>  Radius: <span style="color:blue" id="RadiusXvalue"></span><br>
@@ -61,9 +61,7 @@
 	var AreaYInputE1 = document.getElementById("ry");
 	var AreaUInputE1 = document.getElementById("aUnion");
 	
-	var PathArc1E1 = document.getElementById("arc1");
-	var PathArc2E1 = document.getElementById("arc2");
-	var PathArc3E1 = document.getElementById("arc3");
+	
 	
 	
 	var EasyPI = Math.round(Math.PI*100000)/100000;
@@ -266,9 +264,9 @@
 	  }
 	  
 	  	  
-	  PathArc1E1.setAttribute("d",PathArc1Str);
-	  PathArc2E1.setAttribute("d",PathArc2Str);
-	  PathArc3E1.setAttribute("d",PathArc3Str);
+	  arc1.setAttribute("d",PathArc1Str);
+	  arc2.setAttribute("d",PathArc2Str);
+	  arc3.setAttribute("d",PathArc3Str);
 	  
 	  
 	  
