@@ -57,22 +57,9 @@
 
   <script>
     //capture all the element you plan to change
-	var AreaXE1 = document.getElementById("AreaXvalue");
-	var RadiusXE1 = document.getElementById("RadiusXvalue");
-	var AngleXE1 = document.getElementById("AngleXvalue");
 	var AreaXInputE1 = document.getElementById("rx");
-	var DistE1 = document.getElementById("CircDist");
-	
-	var AreaYE1 = document.getElementById("AreaYvalue");
-	var RadiusYE1 = document.getElementById("RadiusYvalue");
-	var AngleYE1 = document.getElementById("AngleYvalue");
 	var AreaYInputE1 = document.getElementById("ry");
-	
-	var AreaUE1 = document.getElementById("AreaUvalue");
 	var AreaUInputE1 = document.getElementById("aUnion");
-	
-	var StartAreaUE1 = document.getElementById("StartAreaUvalue");
-	var TestAreaUE1 = document.getElementById("TestAreaUvalue");
 	
 	var PathArc1E1 = document.getElementById("arc1");
 	var PathArc2E1 = document.getElementById("arc2");
@@ -118,11 +105,11 @@
 	function UpdateXNumbers(e)
 	{
 	 AreaX=e;
-	 AreaXE1.innerHTML="test";
+	 AreaXvalue.innerHTML=AreaX;
 	 
 	 //update the Area value if it is greater than the smallest circle 
-	 AreaUInputE1.max=AreaX;
-	 AreaYInputE1.min=AreaX;
+	 aUnion.max=AreaX;
+	 ry.min=AreaX;
 	 
 	} 
 	function FireXNumbers(e)
@@ -142,7 +129,7 @@
 	function UpdateYNumbers(e)
 	{
 	 AreaY=e;
-	 AreaYE1.textContent=e;
+	 AreaYvalue.innerHTML=e;
 	 //update the Area value if it is greater than the smallest circle 
 	 AreaXInputE1.max=AreaY;
 	}
@@ -161,9 +148,9 @@
 	function UpdateUNumbers(e)
 	{
 	 AreaU=Math.round(e);
-	 AreaUE1.textContent=AreaU;
+	 AreaUvalue.innerHTML=AreaU;
 	 //Make sure the user cant make the smallest circle smaller than the union 
-	 AreaXInputE1.min=AreaU;
+	 rx.min=AreaU;
 	}
 	function FireUNumbers(e) 
 	{
@@ -254,13 +241,13 @@
        	   
 		
 	 //show results
-	 RadiusYE1.textContent=RadiusY;
-	 RadiusXE1.textContent=RadiusX;
-	 AngleXE1.textContent=AngleX;
-	 AngleYE1.textContent=AngleY;
-	 StartAreaUE1.textContent=StartAreaU;
-	 TestAreaUE1.textContent=TestAreaU;
-	 DistE1.textContent=EscapeHatch;
+	 RadiusYvalue.innerHTML=RadiusY;
+	 RadiusXvalue.innerHTML=RadiusX;
+	 AngleXvalue.innerHTML=AngleX;
+	 AngleYvalue.innerHTML=AngleY;
+	 StartAreaUvalue.innerHTML=StartAreaU;
+	 TestAreaUvalue.innerHTML=TestAreaU;
+	 CircDist.innerHTML=EscapeHatch;
 	}
 	function BuildArcs()
 	{
