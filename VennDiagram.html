@@ -1,12 +1,13 @@
 <HTML>
 
-  
+
 
 <BODY>    
+
 <div class="ui">
     <div class="controls">
-        Area Circle X: <input id="rx" type="range" onmousemove="UpdateXNumbers(this.value)"	onmouseup="FireXNumbers(this.value)" touchend="FireXNumbers(this.value)" min="1" max="2000"/><br><br><br>
-        Area Circle Y: <input id="ry" type="range" onmousemove="UpdateYNumbers(this.value)" onmouseup="FireYNumbers(this.value)" touchend="FireYNumbers(this.value)" min="1" max="2000" disabled="disabled"/><br><br><br>
+        Area Circle X: <input id="rx" type="range" onmousemove="UpdateXNumbers(this.value)"	onmouseup="FireXNumbers(this.value)" touchend="FireXNumbers(this.value)" min="1" max="2000"/><br><br>
+        Area Circle Y: <input id="ry" type="range" onmousemove="UpdateYNumbers(this.value)" onmouseup="FireYNumbers(this.value)" touchend="FireYNumbers(this.value)" min="1" max="2000" disabled="disabled"/><br><br>
 		Area    Union: <input id="aUnion" type="range" onmousemove="UpdateUNumbers(this.value)" onmouseup="FireUNumbers(this.value)" touchend="FireUNumbers(this.value)" min="1" max="2000" value="1" disabled="disabled"/><br>
     </div>
     <div class="results">
@@ -17,8 +18,6 @@
         Circle Y Angle: <span style="color:blue" id="AngleYvalue"></span><br>
         Starter Union Area: <span style="color:blue" id="StartAreaUvalue"></span><br>
 		Test Union Area: <span style="color:blue" id="TestAreaUvalue"></span><br>
-        
-
     </div>
 </div>
 
@@ -36,10 +35,13 @@
 
         .ui .controls input {
             vertical-align: middle;
+			width: 300px;
+			height: 50px;
         }
 	    .ui .results {
             float: right;
         }
+		
         svg {
             background: #ddd;
         }
@@ -57,13 +59,6 @@
 
   <script>
     //capture all the element you plan to change
-	var AreaXInputE1 = document.getElementById("rx");
-	var AreaYInputE1 = document.getElementById("ry");
-	var AreaUInputE1 = document.getElementById("aUnion");
-	
-	
-	
-	
 	var EasyPI = Math.round(Math.PI*100000)/100000;
 	var RadiusX;
 	var RadiusY;
@@ -80,25 +75,7 @@
 	var AcuteAngle=false;
 	var EscapeHatch=0;
 	var AngleMove=EasyPI/2;
-	
-	//fires continuously
-	AreaXInputE1.addEventListener("input", function(){UpdateXNumbers(this.value);});
-	AreaYInputE1.addEventListener("input", function(){UpdateYNumbers(this.value);});
-	AreaUInputE1.addEventListener("input", function(){UpdateUNumbers(this.value);});
-	AreaXInputE1.addEventListener("oninput", function(){UpdateXNumbers(this.value);});
-	AreaYInputE1.addEventListener("oninput", function(){UpdateYNumbers(this.value);});
-	AreaUInputE1.addEventListener("oninput", function(){UpdateUNumbers(this.value);});
-	AreaXInputE1.addEventListener("onchange", function(){UpdateXNumbers(this.value);});
-	AreaYInputE1.addEventListener("onchange", function(){UpdateYNumbers(this.value);});
-	AreaUInputE1.addEventListener("onchange", function(){UpdateUNumbers(this.value);});
-	//fires when the user releases the mouse
-	AreaXInputE1.addEventListener("mouseup", function(){FireXNumbers(this.value);});
-	AreaYInputE1.addEventListener("mouseup", function(){FireYNumbers(this.value);});
-	AreaUInputE1.addEventListener("mouseup", function(){FireUNumbers(this.value);});
-	//fires when the user releases the finger
-	AreaXInputE1.addEventListener("touchend", function(){FireXNumbers(this.value);});
-	AreaYInputE1.addEventListener("touchend", function(){FireYNumbers(this.value);});
-	AreaUInputE1.addEventListener("touchend", function(){FireUNumbers(this.value);});
+
 	
 	function UpdateXNumbers(e)
 	{
@@ -129,7 +106,7 @@
 	 AreaY=e;
 	 AreaYvalue.innerHTML=e;
 	 //update the Area value if it is greater than the smallest circle 
-	 AreaXInputE1.max=AreaY;
+	 rx.max=AreaY;
 	}
 	 
 	function FireYNumbers(e)
@@ -145,7 +122,7 @@
 	
 	function UpdateUNumbers(e)
 	{
-	 AreaU=Math.round(e);
+	 AreaU=e;
 	 AreaUvalue.innerHTML=AreaU;
 	 //Make sure the user cant make the smallest circle smaller than the union 
 	 rx.min=AreaU;
@@ -171,7 +148,7 @@
 	   DistX=Math.cos(AngleX)*RadiusX;
 	   
 	   //find the angle of the large circle to the join point
-	   AngleY=Math.round(Math.asin((arcDist*.5)/(RadiusY))*100000)/100000;
+	   AngleY=Math.asin((arcDist*.5)/(RadiusY));
 	   //the distance of the begining Y cirle to the join line 
 	   DistY=Math.cos(AngleY)*RadiusY;
        //find the area of the union 
@@ -199,7 +176,7 @@
 			 AngleX=AngleX+AngleMove;
             } 			
 		    arcDist = RadiusX*2*Math.sin(AngleX);
-		    DistX=Math.cos(AngleX)*RadiusX;;
+		    DistX=Math.cos(AngleX)*RadiusX;
 		    AngleY=Math.asin((arcDist*.5)/(RadiusY));
 		    DistY=Math.cos(AngleY)*RadiusY;
 		    TestAreaU=(AreaX*((AngleX*2)/(2*EasyPI))-(DistX*arcDist*.5))+(AreaY*((AngleY*2)/(2*EasyPI))-(DistY*arcDist*.5));
@@ -227,7 +204,7 @@
 			 AngleX=AngleX+AngleMove;
             } 			
 		    arcDist = RadiusX*2*Math.sin(AngleX);
-		    DistX=Math.cos(AngleX)*RadiusX;;
+		    DistX=Math.cos(AngleX)*RadiusX;
 		    AngleY=Math.asin((arcDist*.5)/(RadiusY));
 		    DistY=Math.cos(AngleY)*RadiusY;
 		    TestAreaU=(AreaX*((AngleX*2)/(2*EasyPI))-(DistX*arcDist*.5))+(AreaY*((AngleY*2)/(2*EasyPI))-(DistY*arcDist*.5));
@@ -241,9 +218,9 @@
 	 //show results
 	 RadiusYvalue.innerHTML=RadiusY;
 	 RadiusXvalue.innerHTML=RadiusX;
-	 AngleXvalue.innerHTML=AngleX;
-	 AngleYvalue.innerHTML=AngleY;
-	 StartAreaUvalue.innerHTML=StartAreaU;
+	 AngleXvalue.innerHTML=Math.round(AngleX*100000)/100000;
+	 AngleYvalue.innerHTML=Math.round(AngleY*100000)/100000;
+	 StartAreaUvalue.innerHTML=Math.round(StartAreaU*100000)/100000;
 	 TestAreaUvalue.innerHTML=TestAreaU;
 	 CircDist.innerHTML=EscapeHatch;
 	}
