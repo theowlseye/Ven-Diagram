@@ -9,7 +9,7 @@ StartAreaU=(AreaX*((AngleX)/(EasyPI))-(DistX*arcDist*.5))+(AreaY*((AngleY)/(Easy
 
 This formula is a mess.  
 I am argueing with myself if I want this project to be educational or if I just want to reach the end goal.  
-If it were to be educational I would have to explain how I came up with that crazy ass formula.  
+If it were to be educational I would have to explain how I came up with that crazy formula.  
 I would also need to find a better way to show the formula.  It hurts my eyes.
 
 Here is an easy formula. This something digestable.  
