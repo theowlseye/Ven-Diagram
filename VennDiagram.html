@@ -7,16 +7,16 @@
 <div class="ui">
     <div class="controls">
         Area Circle X: <input id="rx" type="number" onchange="UpdateXNumbers(this.value)"/><br><br>
-        Area Circle Y: <input id="ry" type="number"  onchange="UpdateYNumbers(this.value)"   disabled="disabled"/><br><br>
-		Area    Union: <input id="aUnion" type="number" onchange="UpdateUNumbers(this.value)" disabled="disabled"/><br>
+        Area Circle Y: <input id="ry" type="number"  onchange="UpdateYNumbers(this.value)"/><br><br>
+		Area    Union: <input id="aUnion" type="number" onchange="UpdateUNumbers(this.value)"/><br>
     </div>
     <div class="results">
-        Circle X Area: <span style="color:blue" id="AreaXvalue"></span>  Radius: <span style="color:blue" id="RadiusXvalue"></span><br>
-        Circle Y Area: <span style="color:blue" id="AreaYvalue"></span>  Radius: <span style="color:blue" id="RadiusYvalue"></span><br>
+        Circle X Area: <span style="color:blue" id="AreaXvalue"></span>  Small Circle Radius: <span style="color:blue" id="SmallRadiusValue"></span><br>
+        Circle Y Area: <span style="color:blue" id="AreaYvalue"></span>  Large Circle Radius: <span style="color:blue" id="LargeRadiusValue"></span><br>
 		Union Area: <span style="color:blue" id="AreaUvalue"></span>  Iterations: <span style="color:blue" id="CircDist"></span><br>
-        Circle X Angle: <span style="color:blue" id="AngleXvalue"></span><br>
-        Circle Y Angle: <span style="color:blue" id="AngleYvalue"></span><br>
-        Starter Union Area: <span style="color:blue" id="StartAreaUvalue"></span><br>
+        Small Circle Angle: <span style="color:blue" id="SmallAngleValue"></span> Small Segment Area: <span style="color:blue" id="SmallSegValue"></span><br>
+        Large Circle Angle: <span style="color:blue" id="LargeAngleValue"></span> Large Segment Area: <span style="color:blue" id="LargeSegValue"></span><br>
+        Starter Union Area: <span style="color:blue" id="StartAreaUvalue"></span>  Arc Distance:<span style="color:blue" id="ArcDistValue"></span><br>
 		Test Union Area: <span style="color:blue" id="TestAreaUvalue"></span><br>
     </div>
 </div>
@@ -59,34 +59,22 @@
 
   <script>
     //capture all the element you plan to change
-	var EasyPI = Math.round(Math.PI*100000)/100000;
-	var RadiusX;
-	var RadiusY;
+	
 	var RxMin=1;
 	var RxMax=4000;
     var RyMin=1;
 	var RyMax=4000;
 	var AUmin=1;
 	var AUmax=4000;
-	
 	var AreaX=0;
 	var AreaY=0;
 	var AreaU=0;
-	var StartAreaU;
-	var TestAreaU=-1;
-	var AngleX;
-	var AngleY;
-	var DistX;
-	var DistY;
-	var arcDist;
-	var AcuteAngle=false;
-	var EscapeHatch=0;
-	var AngleMove=EasyPI/2;
-
+	
 	
 	function UpdateXNumbers(e)
 	{
 	 AreaX=parseInt(e);
+	 //Keep the area inside it's range
 	 if(AreaX>RxMax)
 	 {
 	  AreaX=RxMax;
@@ -99,18 +87,12 @@
 	 }
 	 
 	 AreaXvalue.innerHTML=AreaX;
-	 //update the Area value if it is greater than the smallest circle 
-	 AUmax=AreaX;
-	 RyMin=AreaX;
-	  //unlock Circle Y input
-	  if(ry.disabled)
+	  
+	 
+	 //RyMin=AreaX;
+	 if(AreaY!=0&&AreaU!=0)
 	  {
-	    ry.disabled=false;
-	  }
-	  else if(AreaY!=0)
-	  {
-	    DoMathStuff();
-	    BuildArcs();
+		DoMathStuff(AreaX,AreaY);
 	  }
 	 
 	} 
@@ -118,6 +100,7 @@
 	function UpdateYNumbers(e)
 	{ 
 	 AreaY=parseInt(e);
+	 //Keep the area inside it's range
 	 if(AreaY>RyMax)
 	 {
 	  AreaY=RyMax;
@@ -130,14 +113,11 @@
 	 }
 	 
 	 AreaYvalue.innerHTML=AreaY;
-	 //update the Area value if it is greater than the smallest circle 
-	 RxMax=AreaY;
-	 if(AreaY!=0)
+	  
+	 //RxMax=AreaY;
+	 if(AreaX!=0&&AreaU!=0)
 	  {	
-	   DoMathStuff();
-	   BuildArcs();
-	   //unlock Area Input
-	   if(aUnion.disabled){aUnion.disabled=false;} 
+	   DoMathStuff(AreaX,AreaY);
 	  }
 	}
 	 
@@ -146,41 +126,81 @@
 	function UpdateUNumbers(e)
 	{
 	 AreaU=parseInt(e);
-	 if(AreaU>AUmax)
+	 if((AreaU>AreaY||AreaU>AreaX)&&AreaX!=0&&AreaY!=0)
 	 {
-	   AreaU=AUmax;
-	   document.getElementById("aUnion").value=RyMin;
+	   if(AreaY<AreaX){AreaU=AreaY;}
+	   else{AreaU=AreaX;}
+	   document.getElementById("aUnion").value=AreaU;
 	 }
 	 
 	 AreaUvalue.innerHTML=AreaU;
-	 //Make sure the user cant make the smallest circle smaller than the union 
+	 //Make sure the user cant make the one of the circles smaller than the union 
 	 RxMin=AreaU;
-	 DoMathStuff();
-	 BuildArcs();
+	 RyMin=AreaU;
+	 if(AreaX!=0&&AreaY!=0)
+	 {
+	  DoMathStuff(AreaX,AreaY);  
+     }		
 	}
 	
 	
-	function DoMathStuff()
+	function DoMathStuff(TempAreaX,TempAreaY)
 	{
+	   var EasyPI = Math.round(Math.PI*100000)/100000;
+	   var SmallAngle;
+	   var SmallArea;
+	   var LargeArea;
+	   var SmallRadius;
+	   var LargeRadius;
+       var arcDist;	
+       var AcuteAngle=false;
+	   var XisSmallest=false;
+       var StartAreaU;
+	   var LargeAngle;
+	   var LargeSeg;
+	   var SmallSeg;
+	   var SmallDist;
+	   var LargeDist;
+	   
+       var TestAreaU=-1;   	
+	   var EscapeHatch=0;
+	   var AngleMove=EasyPI/2;
+	
+	   //figure out which is the small circle
+	   if(TempAreaX>TempAreaY)
+       {	   
+	    SmallArea=TempAreaY;
+	    LargeArea=TempAreaX;
+		}
+       else
+       {
+	    XisSmallest=true;
+	    SmallArea=TempAreaX;
+	    LargeArea=TempAreaY;
+       }	   
   	   //do math stuff
 	   //find the radiuses given the areas
-	   RadiusY=Math.round(Math.sqrt(AreaY/EasyPI)*100)/100;
-	   RadiusX=Math.round(Math.sqrt(AreaX/EasyPI)*100)/100;
+	   SmallRadius=Math.round(Math.sqrt(SmallArea/EasyPI)*100)/100;
+	   LargeRadius=Math.round(Math.sqrt(LargeArea/EasyPI)*100)/100;
+	   
    	   
 	   //make the angle of the small circle to the join point 90 degrees
-	   AngleX=EasyPI/2;
+	   SmallAngle=EasyPI/2;
 	   //the distance of the begining arc is 2x the radius of smaller circle
-	   arcDist = RadiusX*2;
+	   arcDist = SmallRadius*2;
 	   //the distance of the begining small cirle to the join line is 0
-	   DistX=0;
+	   SmallDist=0;
 	   
 	   //find the angle of the large circle to the join point
-	   AngleY=Math.asin((arcDist*.5)/(RadiusY));
+	   LargeAngle=Math.asin(arcDist*.5/LargeRadius);
 	   //the distance of the begining Y cirle to the join line 
-	   DistY=Math.cos(AngleY)*RadiusY;
-       //find the area of the union 
-	  // StartAreaU=(AreaX*((AngleX)/(EasyPI))-(DistX*arcDist*.5))+(AreaY*((AngleY)/(EasyPI))-(DistY*arcDist*.5));
-	  StartAreaU=AreaX/2+AreaY*AngleY/EasyPI-DistY*RadiusX;
+	   LargeDist=Math.cos(LargeAngle)*LargeRadius;
+       //find the area of the union
+       LargeSeg=LargeArea*LargeAngle/EasyPI;
+       SmallSeg=SmallArea/2;  
+	   // StartAreaU=(SmallArea*((SmallAngle)/(EasyPI))-(SmallDist*arcDist*.5))+(LargeArea*((LargeAngle)/(EasyPI))-(LargeDist*arcDist*.5));
+	   //when the arc is 90 the triangle is 0
+	   StartAreaU=SmallSeg-0+LargeSeg-LargeDist*SmallRadius;
 	   if(AreaU!=0)
 	   {
 	    //is the Area greater than the start area?
@@ -197,17 +217,21 @@
 			AngleMove=AngleMove/2;
 			if(TestAreaU>AreaU)
 			{
-		     AngleX=AngleX-AngleMove;
+		     SmallAngle=SmallAngle-AngleMove;
 			}
             else
             {
-			 AngleX=AngleX+AngleMove;
+			 SmallAngle=SmallAngle+AngleMove;
             } 			
-		    arcDist = RadiusX*2*Math.sin(AngleX);
-		    DistX=Math.cos(AngleX)*RadiusX;
-		    AngleY=Math.asin((arcDist*.5)/(RadiusY));
-		    DistY=Math.cos(AngleY)*RadiusY;
-		    TestAreaU=(AreaX*((AngleX*2)/(2*EasyPI))-(DistX*arcDist*.5))+(AreaY*((AngleY*2)/(2*EasyPI))-(DistY*arcDist*.5));
+		    arcDist = SmallRadius*2*Math.sin(SmallAngle);
+		    SmallDist=Math.cos(SmallAngle)*SmallRadius;
+		    LargeAngle=Math.asin((arcDist*.5)/(LargeRadius));
+		    LargeDist=Math.cos(LargeAngle)*LargeRadius;
+		    //the area of the circle multiplied by the ratio of angle over a full cirlce angle
+			//give the area of the slice or segment
+			LargeSeg=LargeArea*LargeAngle/EasyPI;
+			SmallSeg=SmallArea*SmallAngle/EasyPI;
+		    TestAreaU=(SmallSeg-(SmallDist*arcDist*.5))+(LargeSeg-(LargeDist*arcDist*.5));
 		    TestAreaU=Math.round(TestAreaU);
 		  }
            while((AreaU!=TestAreaU)&&EscapeHatch<20);  		  
@@ -225,56 +249,70 @@
 			AngleMove=AngleMove/2;
 			if(TestAreaU>AreaU)
 			{
-		     AngleX=AngleX-AngleMove;
+		     SmallAngle=SmallAngle-AngleMove;
 			}
             else
             {
-			 AngleX=AngleX+AngleMove;
+			 SmallAngle=SmallAngle+AngleMove;
             } 			
-		    arcDist = RadiusX*2*Math.sin(AngleX);
-		    DistX=Math.cos(AngleX)*RadiusX;
-		    AngleY=Math.asin((arcDist*.5)/(RadiusY));
-		    DistY=Math.cos(AngleY)*RadiusY;
-		    TestAreaU=(AreaX*((AngleX*2)/(2*EasyPI))-(DistX*arcDist*.5))+(AreaY*((AngleY*2)/(2*EasyPI))-(DistY*arcDist*.5));
+		    arcDist = SmallRadius*2*Math.sin(SmallAngle);
+		    SmallDist=Math.cos(SmallAngle)*SmallRadius;
+		    LargeAngle=Math.asin((arcDist*.5)/(LargeRadius));
+		    LargeDist=Math.cos(LargeAngle)*LargeRadius;
+			//the area of the circle multiplied by the ratio of angle over a full cirlce angle
+			//give the area of the slice or segment
+			LargeSeg=LargeArea*LargeAngle/EasyPI;
+			SmallSeg=SmallArea*SmallAngle/EasyPI;
+		    TestAreaU=(SmallSeg-SmallDist*arcDist*.5)+(LargeSeg-LargeDist*arcDist*.5);
 		    TestAreaU=Math.round(TestAreaU);
 		  } 
 		  while((AreaU!=TestAreaU)&&EscapeHatch<20); 
 		}
 	   }
-       	   
-		
-	 //show results
-	 RadiusYvalue.innerHTML=RadiusY;
-	 RadiusXvalue.innerHTML=RadiusX;
-	 AngleXvalue.innerHTML=Math.round(AngleX*100000)/100000;
-	 AngleYvalue.innerHTML=Math.round(AngleY*100000)/100000;
+     //show results
+	 LargeRadiusValue.innerHTML=LargeRadius;
+	 SmallRadiusValue.innerHTML=SmallRadius;
+	 SmallAngleValue.innerHTML=Math.round(SmallAngle*100000)/100000;
+	 LargeAngleValue.innerHTML=Math.round(LargeAngle*100000)/100000;
+	 SmallSegValue.innerHTML=Math.round(SmallSeg*100000)/100000;
+	 LargeSegValue.innerHTML=Math.round(LargeSeg*100000)/100000;
 	 StartAreaUvalue.innerHTML=Math.round(StartAreaU*100000)/100000;
 	 TestAreaUvalue.innerHTML=TestAreaU;
 	 CircDist.innerHTML=EscapeHatch;
+	 ArcDistValue.innerHTML=arcDist;
+	 BuildArcs(SmallRadius,LargeRadius,arcDist,AcuteAngle,XisSmallest);
 	}
-	function BuildArcs()
+	
+	function BuildArcs(SmallRadius,LargeRadius,arcDist,AcuteAngle,XisSmallest)
 	{
 	   
-	  if(AcuteAngle)
+	  if(AcuteAngle&&XisSmallest)
 	  {
-	    var PathArc1Str = "M300,100 a " + RadiusX*5 + "," + RadiusX*5 + ", 0, 1, 0, 0, " + arcDist*5 + "  a " + RadiusY*5 + "," + RadiusY*5 + ", 0, 0, 1, 0, -" + arcDist*5 + " z";
-  	    var PathArc2Str = "M300,100 a " + RadiusY*5 + "," + RadiusY*5 + ", 0, 1, 1, 0, " + arcDist*5 + "  a " + RadiusX*5 + "," + RadiusX*5 + ", 0, 0, 0, 0, -" + arcDist*5 + " z";
-	    var PathArc3Str = "M300,100 a " + RadiusY*5 + "," + RadiusY*5 + ", 0, 0, 0, 0, " + arcDist*5 + "  a " + RadiusX*5 + "," + RadiusX*5 + ", 0, 0, 0, 0, -" + arcDist*5 + " z";
+	    var PathArc1Str = "M300,100 a " + SmallRadius*5 + "," + SmallRadius*5 + ", 0, 1, 0, 0, " + arcDist*5 + "  a " + LargeRadius*5 + "," + LargeRadius*5 + ", 0, 0, 1, 0, -" + arcDist*5 + " z";
+  	    var PathArc2Str = "M300,100 a " + LargeRadius*5 + "," + LargeRadius*5 + ", 0, 1, 1, 0, " + arcDist*5 + "  a " + SmallRadius*5 + "," + SmallRadius*5 + ", 0, 0, 0, 0, -" + arcDist*5 + " z";
+	    var PathArc3Str = "M300,100 a " + LargeRadius*5 + "," + LargeRadius*5 + ", 0, 0, 0, 0, " + arcDist*5 + "  a " + SmallRadius*5 + "," + SmallRadius*5 + ", 0, 0, 0, 0, -" + arcDist*5 + " z";
 	  }
-	  else
+	  else if(!AcuteAngle&&XisSmallest)
 	  {
-	    var PathArc1Str = "M300,100 a " + RadiusX*5 + "," + RadiusX*5 + ", 0, 0, 0, 0, " + arcDist*5 + "  a " + RadiusY*5 + "," + RadiusY*5 + ", 0, 0, 1, 0, -" + arcDist*5 + " z";
-	    var PathArc2Str = "M300,100 a " + RadiusY*5 + "," + RadiusY*5 + ", 0, 1, 1, 0, " + arcDist*5 + "  a " + RadiusX*5 + "," + RadiusX*5 + ", 0, 1, 0, 0, -" + arcDist*5 + " z";
-	    var PathArc3Str = "M300,100 a " + RadiusY*5 + "," + RadiusY*5 + ", 0, 0, 0, 0, " + arcDist*5 + "  a " + RadiusX*5 + "," + RadiusX*5 + ", 0, 1, 0, 0, -" + arcDist*5 + " z";
+	    var PathArc1Str = "M300,100 a " + SmallRadius*5 + "," + SmallRadius*5 + ", 0, 0, 0, 0, " + arcDist*5 + "  a " + LargeRadius*5 + "," + LargeRadius*5 + ", 0, 0, 1, 0, -" + arcDist*5 + " z";
+	    var PathArc2Str = "M300,100 a " + LargeRadius*5 + "," + LargeRadius*5 + ", 0, 1, 1, 0, " + arcDist*5 + "  a " + SmallRadius*5 + "," + SmallRadius*5 + ", 0, 1, 0, 0, -" + arcDist*5 + " z";
+	    var PathArc3Str = "M300,100 a " + LargeRadius*5 + "," + LargeRadius*5 + ", 0, 0, 0, 0, " + arcDist*5 + "  a " + SmallRadius*5 + "," + SmallRadius*5 + ", 0, 1, 0, 0, -" + arcDist*5 + " z";
 	  }
-	  
-	  	  
+	  else if(AcuteAngle&&!XisSmallest)
+	  {
+        var PathArc1Str = "M300,100 a " + LargeRadius*5 + "," + LargeRadius*5 + ", 0, 1, 0, 0, " + arcDist*5 + "  a " + SmallRadius*5 + "," + SmallRadius*5 + ", 0, 0, 1, 0, -" + arcDist*5 + " z";
+  	    var PathArc2Str = "M300,100 a " + SmallRadius*5 + "," + SmallRadius*5 + ", 0, 1, 1, 0, " + arcDist*5 + "  a " + LargeRadius*5 + "," + LargeRadius*5 + ", 0, 0, 0, 0, -" + arcDist*5 + " z";
+	    var PathArc3Str = "M300,100 a " + SmallRadius*5 + "," + SmallRadius*5 + ", 0, 0, 0, 0, " + arcDist*5 + "  a " + LargeRadius*5 + "," + LargeRadius*5 + ", 0, 0, 0, 0, -" + arcDist*5 + " z";  
+	  }
+	  else if(!AcuteAngle&&!XisSmallest)
+	  {
+	    var PathArc1Str = "M300,100 a " + LargeRadius*5 + "," + LargeRadius*5 + ", 0, 0, 0, 0, " + arcDist*5 + "  a " + SmallRadius*5 + "," + SmallRadius*5 + ", 0, 0, 1, 0, -" + arcDist*5 + " z";
+	    var PathArc2Str = "M300,100 a " + SmallRadius*5 + "," + SmallRadius*5 + ", 0, 1, 1, 0, " + arcDist*5 + "  a " + LargeRadius*5 + "," + LargeRadius*5 + ", 0, 1, 0, 0, -" + arcDist*5 + " z";
+	    var PathArc3Str = "M300,100 a " + SmallRadius*5 + "," + SmallRadius*5 + ", 0, 0, 0, 0, " + arcDist*5 + "  a " + LargeRadius*5 + "," + LargeRadius*5 + ", 0, 1, 0, 0, -" + arcDist*5 + " z";
+	  }
 	  arc1.setAttribute("d",PathArc1Str);
 	  arc2.setAttribute("d",PathArc2Str);
 	  arc3.setAttribute("d",PathArc3Str);
-	  
-	  
-	  
 	}
 
 
