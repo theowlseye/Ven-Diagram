@@ -30,8 +30,6 @@ When you look at the diagram now it looks like two Circle but, it is 3 shapes.
 Each shape is made up of two arcs.  I want to highlight that.
 I will make each shape highlight when I hover over it.  That means I need to change this SVG to 
 a full blown HTML with a style hover added to it like I did the state game.
- 
-I plan to always have the smaller circle on the left by the way.
 
 AAAnd someone else has done this project and here it is [Bens Venn Diagram](https://github.com/benfred/venn.js/blob/master/README.md)
 
